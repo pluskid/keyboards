@@ -28,12 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
-#define SSD1306OLED
-
 #define USE_SERIAL_PD2
 
+#define OLED_FONT_H "keyboards/crkbd/keymaps/crkbd-kid/glcdfont.c"
+
 #define TAPPING_FORCE_HOLD
-#define TAPPING_TERM 120
+#define TAPPING_TERM 130
 
 #ifdef RGBLIGHT_ENABLE
     #undef RGBLED_NUM
