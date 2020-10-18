@@ -1,0 +1,3 @@
+[submodule "flanck/kbd"]
+	path = flanck/kbd
+	url = https://github.com/foostan/kbd.git
