@@ -1613,4 +1613,26 @@ F 3 "~" H 4200 1950 50  0001 C CNN
 	1    4200 1950
 	1    0    0    -1  
 $EndComp
+$Comp
+L Mechanical:MountingHole H8
+U 1 1 5F8D58FB
+P 2425 2525
+F 0 "H8" H 2525 2571 50  0000 L CNN
+F 1 "MountingHole" H 2525 2480 50  0000 L CNN
+F 2 "kbd:M2_Threads_v2" H 2425 2525 50  0001 C CNN
+F 3 "~" H 2425 2525 50  0001 C CNN
+	1    2425 2525
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H9
+U 1 1 5F8D5BFE
+P 3625 2525
+F 0 "H9" H 3725 2571 50  0000 L CNN
+F 1 "MountingHole" H 3725 2480 50  0000 L CNN
+F 2 "kbd:M2_Threads_v2" H 3625 2525 50  0001 C CNN
+F 3 "~" H 3625 2525 50  0001 C CNN
+	1    3625 2525
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

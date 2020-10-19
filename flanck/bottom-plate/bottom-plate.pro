@@ -1,4 +1,4 @@
-update=Sunday, October 18, 2020 at 03:52:39 PM
+update=Sunday, October 18, 2020 at 09:41:03 PM
 version=1
 last_client=kicad
 [cvpcb]
@@ -22,7 +22,7 @@ ERC_TestSimilarLabels=1
 [pcbnew]
 version=1
 PageLayoutDescrFile=
-LastNetListRead=corne-light.net
+LastNetListRead=
 CopperLayerCount=2
 BoardThickness=1.6
 AllowMicroVias=0
