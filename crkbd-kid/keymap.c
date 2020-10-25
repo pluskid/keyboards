@@ -18,12 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
-
-#ifdef RGBLIGHT_ENABLE
-  //Following line allows macro to read current RGB settings
-  extern rgblight_config_t rgblight_config;
-#endif
-
 extern uint8_t is_master;
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
@@ -35,18 +29,6 @@ extern uint8_t is_master;
 #define _RAISE 2
 #define _NAVI 3
 
-enum custom_keycodes {
-  COLEMAK = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  NAVI,
-  BACKLIT,
-  RGBRST
-};
-
-enum macro_keycodes {
-  KC_SAMPLEMACRO,
-};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_COLEMAK] = LAYOUT_split_3x6_3( \
@@ -67,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    KC_K,   KC_H, KC_COMM,  KC_DOT, KC_SLSH,       KC_SFTENT, \
   // -------------------------------------------------------------------------
   // bottom row:
-                KC_LGUI,   LOWER,  KC_SPC,     KC_SPC,  RAISE,  KC_RALT \
+                KC_LGUI,   MO(1),  KC_SPC,     KC_SPC,  MO(2),  KC_RALT \
   ),
 
   [_LOWER] = LAYOUT_split_3x6_3( \
@@ -107,85 +89,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   )
 };
-
-int RGB_current_mode;
-
-void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
-  default_layer_set(default_layer);
-}
-
-// Setting ADJUST layer RGB back to default
-void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
-  if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
-    layer_on(layer3);
-  } else {
-    layer_off(layer3);
-  }
-}
-
-void matrix_init_user(void) {
-    #ifdef RGBLIGHT_ENABLE
-      RGB_current_mode = rgblight_config.mode;
-    #endif
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Main Event Loop
-////////////////////////////////////////////////////////////////////////////////
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case COLEMAK:
-      if (record->event.pressed) {
-        persistent_default_layer_set(1UL<<_COLEMAK);
-      }
-      return false;
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-        update_tri_layer_RGB(_LOWER, _RAISE, _NAVI);
-      } else {
-        layer_off(_LOWER);
-        update_tri_layer_RGB(_LOWER, _RAISE, _NAVI);
-      }
-      return false;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-        update_tri_layer_RGB(_LOWER, _RAISE, _NAVI);
-      } else {
-        layer_off(_RAISE);
-        update_tri_layer_RGB(_LOWER, _RAISE, _NAVI);
-      }
-      return false;
-    case NAVI:
-        if (record->event.pressed) {
-          layer_on(_NAVI);
-        } else {
-          layer_off(_NAVI);
-        }
-        return false;
-    case RGB_MOD:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          rgblight_mode(RGB_current_mode);
-          rgblight_step();
-          RGB_current_mode = rgblight_config.mode;
-        }
-      #endif
-      return false;
-    case RGBRST:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
-          rgblight_enable();
-          RGB_current_mode = rgblight_config.mode;
-        }
-      #endif
-      break;
-  }
-  return true;
-}
-
 
