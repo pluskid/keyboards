@@ -22,6 +22,24 @@ def row_to_matrix(row, nkeys_per_row):
   return matrix
 
 
+def keycode_to_label(code):
+  if code.startswith('KC_'):
+    code = code[3:]
+  map = {
+      'MO(1)': '&dArr;', 'MO(2)': '&uArr;',
+      'LEFT': '&larr;', 'RGHT': '&rarr;', 'UP': '&uarr;', 'DOWN': '&darr;',
+      'COMM': ',', 'DOT': '.', 'SLSH': '/', 'QUOT': '\'', 'SCLN': ';',
+      'BSPC': '&#x232B;', 'NO': 'N/A', 'TRNS': '&#x25BD;', 'ENT': 'Enter',
+      'SPC': '', 'MINS': '-', 'EQL': '=', 'LBRC': '[', 'RBRC': ']',
+      'BSLS': '\\', 'GRV': '`', 'UNDS': '_', 'TILD': '~', 'EXLM': '!',
+      'AT': '@', 'HASH': '#', 'DLR': '$', 'PERC': '%', 'CIRC': '^',
+      'AMPR': '&', 'ASTR': '*', 'LPRN': '(', 'RPRN': ')', 'PLUS': '+',
+      'LCBR': '{', 'RCBR': '}', 'PIPE': '|', 'LT': '<', 'GT': '>', 'QUES': '?',
+      'TAB': '&#x21B9;', 'ESC': '&#x238B;'
+  }
+  return map.get(code, code)
+
+
 class Keymap(abc.ABC):
 
   def __init__(self, input_keymap):
@@ -54,9 +72,21 @@ class Keymap(abc.ABC):
   def to_qmk_configurator(self):
     """Export to QMK configurator json format."""
     meta = copy.deepcopy(self.qmk_meta)
-    meta['layers'] = self.layers
+    meta['layers'] = [self.matrix_to_row(m) for m in self.layers]
 
     return json.dumps(meta, indent=2)
+
+  def to_keyboard_layout_editor(self, layer_id):
+    """Convert to keypoard layout editor format.
+
+    Note, we only output key rows, because we do not have physical
+    layout information.
+    """
+    layer = self.layers[layer_id]
+    data = [[keycode_to_label(key) for key in row]
+            for row in layer]
+    data[0].insert(0, dict(a=7))  # key label alignment
+    return json.dumps(data, indent=2)
 
 
 class Ortho4x12(Keymap):
@@ -98,7 +128,7 @@ class PlanckKeymap(Ortho4x12):
     else:
       raise KeyError(f'Unsupported planck layout: {self.layout}')
 
-    return self.matrix_to_row(matrix)
+    return matrix
 
   @property
   def qmk_meta(self):
@@ -118,7 +148,7 @@ class CorneKeymap(Ortho4x12):
     #                Cmd, Lwr, Spc, Spc, Rsr, Opt
     matrix = self.row_to_matrix(layer)
     matrix[3] = [matrix[3][i] for i in [3, 4, 5, 6, 7, 2]]
-    return self.matrix_to_row(matrix)
+    return matrix
 
   @property
   def qmk_meta(self):
@@ -138,7 +168,7 @@ class Reviung41Keymap(Ortho4x12):
     #                Cmd, Lwr, Spc2, Rsr, Opt
     matrix = self.row_to_matrix(layer)
     matrix[3] = [matrix[3][i] for i in [3, 4, 6, 7, 2]]
-    return self.matrix_to_row(matrix)
+    return matrix
 
   @property
   def qmk_meta(self):
@@ -164,8 +194,8 @@ def main():
                       help='json file exported from QMK Configurator.')
   parser.add_argument('keyboard', help='Target keyboard name.',
                       choices=keyboards.keys())
-  parser.add_argument('export_type', choices=['qmk'],
-                      help='Export type.')
+  parser.add_argument('export_type', 
+                      help='Export type {qmk, kle-0, kle-1, ...}.')
 
   args = parser.parse_args()
   with open(args.input_json, 'r') as in_f:
@@ -174,6 +204,11 @@ def main():
 
   if args.export_type == 'qmk':
     print(keymap.to_qmk_configurator())
+  elif args.export_type.startswith('kle-'):
+    layer_id = int(args.export_type.split('-')[1])
+    print(keymap.to_keyboard_layout_editor(layer_id))
+  else:
+    print(f'Unknown export type: {args.export_type}')
 
 
 if __name__ == '__main__':
