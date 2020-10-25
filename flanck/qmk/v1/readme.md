@@ -1,6 +1,6 @@
 # Flanck
 
-![Flanck](http://i.imgur.com/q2M3uEU.jpg)
+TODO: add flanck image
 
 Flanck is the "Fat Planck".
 
