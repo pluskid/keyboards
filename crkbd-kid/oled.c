@@ -66,17 +66,6 @@ int get_frame_number(int total_time, int n_frames) {
   return (timer_read() % total_time) / (total_time / n_frames);
 }
 
-void render_layer_lower(int frame_number) {
-  static const char PROGMEM font_icon[] = {
-    ' ', ' ', 0x92, 0x93, ' ', 0,
-    ' ', ' ', 0xB2, 0xB3, ' ', 0,
-    ' ', ' ', 0xD2, 0xD3, ' ', 0,
-    ' ', 0x9F, 0xBF, 0xBF, 0xDF, 0,
-  };
-  oled_write_ln_P(&font_icon[(frame_number % 3) * 6], false);
-  oled_write_ln_P(&font_icon[3 * 6], false);
-}
-
 void render_layer_state(void) {
   static const char PROGMEM font_up[] = {
     ' ', ' ', 0xD2, 0xD3, ' ', 0,
@@ -115,6 +104,9 @@ void render_layer_state(void) {
       break;
     case 3:
       oled_write_ln_P(PSTR(" >><<"), false);
+      break;
+    default:
+      oled_write_ln_P(font_blank, false);
       break;
   }
 
