@@ -11,12 +11,12 @@ Flanck is the "Fat Planck". It is a low profile 4x12 grid style keypoard using K
 The first built of Flanck (on Oct. 27, 2020). If you are interested in building this keyboard yourself, you will need the followings:
 
 - The garber files of the PCB, the top plate and bottom plate can be found in the [Flanck v1.1 Release page](https://github.com/pluskid/keyboards/releases/tag/flanck-v1.1). You can order PCBs using those files from manufactures like [JLCPCB](https://jlcpcb.com/).
-- The firmware is based on [QMK](https://docs.qmk.fm/), and can be found under [qmk/v1](flanck/qmk/v1/).
+- The firmware is based on [QMK](https://docs.qmk.fm/), and can be found under [qmk/v1](qmk/v1/).
 - The following table list the remaining components that are needed. The links are only provided for conveinence. You can collect your parts from any sources.
 
 | Item        | Qty| Links | Remarks |
 |-------------|---:|-------|---------|
-| Elite-C     |  1 | [BoardSource](https://boardsource.xyz/store/5ef67ea66786dc1e65a80708), [Keeb.io](https://keeb.io/products/elite-c-low-profile-version-usb-c-pro-micro-replacement-atmega32u4) | Can also use Pro Micro and compatible clones -- then don't forget to update `BOOTLOADER` in [qmk/v1/rules.mk](flanck/qmk/v1/rules.mk) of the firmware accordinly. |
+| Elite-C     |  1 | [BoardSource](https://boardsource.xyz/store/5ef67ea66786dc1e65a80708), [Keeb.io](https://keeb.io/products/elite-c-low-profile-version-usb-c-pro-micro-replacement-atmega32u4) | Can also use Pro Micro and compatible clones -- then don't forget to update `BOOTLOADER` in [qmk/v1/rules.mk](qmk/v1/rules.mk) of the firmware accordinly. |
 | Diode (1N4148 SMD) | 48 | [BoardSource](https://boardsource.xyz/store/5ec9fc5d64caf04f83aa646c) | |
 | Kailh Choc Switch  | 48 | [BoardSource](https://boardsource.xyz/store/5ef6eff1de8f0374b7347742), [AliExperss](https://www.aliexpress.com/item/4000907409650.html) | Both V1 and V2 should work, though I only tested Choc V1 |
 | Choc Keycap 1U | 40 | [BoardSource MBK keycaps](https://boardsource.xyz/store/5f6ef2d68e3bf05ab838f918)| Get 2x home-scooped 1U keycaps as well |
