@@ -139,6 +139,21 @@ class PlanckKeymap(Ortho4x12):
     )
 
 
+class FlanckKeymap(Ortho4x12):
+
+  def convert_layer(self, layer):
+    matrix = self.row_to_matrix(layer)
+    return matrix
+
+  @property
+  def qmk_meta(self):
+    return dict(
+        keyboard='flanck/v1',
+        keymap='custom_flanck_v1',
+        layout='LAYOUT_ortho_4x12'
+    )
+
+
 class CorneKeymap(Ortho4x12):
 
   def convert_layer(self, layer):
@@ -187,6 +202,7 @@ def main():
                                   layout='mit', device='planck/ez'),
       corne=CorneKeymap,
       reviung41=Reviung41Keymap,
+      flanck=FlanckKeymap,
   )
 
   parser = argparse.ArgumentParser('Keymap converter.')
