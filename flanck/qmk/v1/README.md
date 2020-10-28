@@ -28,7 +28,7 @@ you can use
 $ qmk compile -kb flanck/v1 -km default
 ```
 
-to compile the firmware with the default keymap. The default keymap is converted from [my 4x12 ortho linear keymap](ortho-keymap/),
+to compile the firmware with the default keymap. The default keymap is converted from [my 4x12 ortho linear keymap](https://github.com/pluskid/keyboards/tree/main/ortho-keymap),
 which uses [Colemak DHm](https://colemakmods.github.io/mod-dh/keyboards.html) as the base layer. You can create your own keymap 
 by making a new directory under `keymaps` and create a `keymap.c`. You can manually edit `keymap.c`. Or if you prefer using
 [QMK Configurator](https://config.qmk.fm/#/planck/rev6/LAYOUT_ortho_4x12), you can use a 4x12 ortho keyboard
