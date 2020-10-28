@@ -10,8 +10,29 @@ Flanck is the "Fat Planck". It is a low profile 4x12 grid style keypoard using K
 * Hardware Supported: Flanck V1
 * Hardware Availability: PCB can be self ordered, see [pcb files](https://github.com/pluskid/keyboards/tree/main/flanck).
 
-Make example for this keyboard (after setting up your build environment):
+Note this firmware is not merged into the QMK main repo. To compile this firmware, you need to setup the QMK environment first.
+See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) 
+for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
 
-    make flanck/v1:default
+After setting up the QMK environment, you need to copy (or make a symlink) this directory into the `keyboards` directory under the QMK source tree:
 
-See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
+```
+$ cd /path/to/qmk/keyboards
+$ ln -s /path/to/flanck/qmk flanck
+```
+
+Then
+you can use
+
+```
+$ qmk compile -kb flanck/v1 -km default
+```
+
+to compile the firmware with the default keymap. The default keymap is converted from [my 4x12 ortho linear keymap](ortho-keymap/),
+which uses [Colemak DHm](https://colemakmods.github.io/mod-dh/keyboards.html) as the base layer. You can create your own keymap 
+by making a new directory under `keymaps` and create a `keymap.c`. You can manually edit `keymap.c`. Or if you prefer using
+[QMK Configurator](https://config.qmk.fm/#/planck/rev6/LAYOUT_ortho_4x12), you can use a 4x12 ortho keyboard
+(e.g. [Planck 4x12](https://config.qmk.fm/#/planck/rev6/LAYOUT_ortho_4x12)) as a starting point to edit your keymap. Then
+you can export the keymap as a json file, and use `qmk json2c` to convert this json file to a `keymap.c` file and build it 
+locally under the flanck firmware directory. Note you cannot directly compile a firmware online with QMK configurator, because
+our firmware code is not merged into the QMK main repo.
