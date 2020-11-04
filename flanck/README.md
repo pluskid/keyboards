@@ -37,3 +37,5 @@ When using Choc switches, there is ~2mm space between the PCB and the bottom pla
 ## Wireless Flanck with nice!nano
 
 You can use any Pro Micro compatible MCU board in place of Elite-C. In particular, I built a [nice!nano](https://docs.nicekeyboards.com/#/nice!nano/) based Flanck keyboard that support bluetooth. I use [this 3.7V 100mAh Lithium Ion Polymer Battery](https://www.amazon.com/gp/product/B0137KTPP0/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1), which is small enough to sit below the nice!nano. The [ZMK](https://zmkfirmware.dev/) based firmware can be found [here](https://github.com/pluskid/flanck-zmk-config).
+
+![Flanck Wired and Wireless](https://user-images.githubusercontent.com/3542/98070456-0fe96580-1e16-11eb-9069-8433277cd1bb.JPG)
