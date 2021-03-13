@@ -13,4 +13,4 @@
 #define OLED_FONT_H "keyboards/crkbd/keymaps/crkbd-kid/glcdfont.c"
 
 #define TAPPING_FORCE_HOLD
-#define TAPPING_TERM 120
+#define TAPPING_TERM 130
