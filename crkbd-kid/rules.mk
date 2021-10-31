@@ -8,5 +8,5 @@
 #   ATmega328P   USBasp
 BOOTLOADER = atmel-dfu  # For Elite-C RESET keycode to work
 
-OLED_DRIVER_ENABLE = yes
+OLED_ENABLE = yes
 SRC +=  ./oled.c

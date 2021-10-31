@@ -1,6 +1,13 @@
 #include QMK_KEYBOARD_H
 
-#ifdef OLED_DRIVER_ENABLE
+#define LAYER_BASE 0
+#define LAYER_LOWER 1
+#define LAYER_RAISE 2
+#define LAYER_NAV 3
+#define LAYER_FUN 4
+#define LAYER_ART 5
+
+#ifdef OLED_ENABLE
 #define MOD_ICON_WIDTH 4
 #define MOD_ICON_HEIGHT 3
 void render_mod_icon(uint8_t loc, bool enabled, const char *icon, bool invert) {
@@ -83,38 +90,52 @@ void render_layer_state(void) {
 
   int frame_number = get_frame_number(800, 4);
   int layer = get_highest_layer(layer_state);
+  int default_layer = biton32(default_layer_state);
 
-  oled_write_ln_P(font_blank, false);
-  if (layer == 2 || layer == 3) {
-    // Raise or Nav
-    oled_write_ln_P(&font_up[(frame_number % 3) * 6], false);
+  if (default_layer == LAYER_ART) {
+    oled_write_ln_P(font_blank, false);
+    oled_write_ln_P(PSTR(" ----"), false);
+    oled_write_ln_P(PSTR(" HALF"), false);
+    oled_write_ln_P(PSTR(" ----"), false);
   } else {
     oled_write_ln_P(font_blank, false);
-  }
-
-  switch (layer) {
-    case 0:
-      oled_write_ln_P(PSTR(" > \x96\x96"), false);
-      break;
-    case 1:
-      oled_write_ln_P(PSTR(" > 01"), false);
-      break;
-    case 2:
-      oled_write_ln_P(PSTR(" > #@"), false);
-      break;
-    case 3:
-      oled_write_ln_P(PSTR(" >><<"), false);
-      break;
-    default:
+    if (layer == LAYER_RAISE || layer == LAYER_NAV) {
+      // Raise or Nav
+      oled_write_ln_P(&font_up[(frame_number % 3) * 6], false);
+    } else {
       oled_write_ln_P(font_blank, false);
-      break;
-  }
+    }
 
-  if (layer == 1 || layer == 3) {
-    // Lower or Nav
-    oled_write_ln_P(&font_down[(frame_number % 3) * 6], false);
-  } else {
-    oled_write_ln_P(font_blank, false);
+    switch (layer) {
+      case LAYER_BASE:
+        if (host_keyboard_led_state().caps_lock)
+          oled_write_ln_P(PSTR(" CAPS"), false);
+        else
+          oled_write_ln_P(PSTR(" > \x96\x96"), false);
+        break;
+      case LAYER_LOWER:
+        oled_write_ln_P(PSTR(" > 01"), false);
+        break;
+      case LAYER_RAISE:
+        oled_write_ln_P(PSTR(" > #@"), false);
+        break;
+      case LAYER_NAV:
+        oled_write_ln_P(PSTR(" >><<"), false);
+        break;
+      case LAYER_FUN:
+        oled_write_ln_P(PSTR(" FUN "), false);
+        break;
+      default:
+        oled_write_ln_P(font_blank, false);
+        break;
+    }
+
+    if (layer == LAYER_LOWER || layer == LAYER_RAISE) {
+      // Lower or Nav
+      oled_write_ln_P(&font_down[(frame_number % 3) * 6], false);
+    } else {
+      oled_write_ln_P(font_blank, false);
+    }
   }
 }
 
@@ -124,15 +145,14 @@ void render_mod_status(void) {
 #else
   uint8_t modifiers = get_mods() | get_oneshot_mods();
 #endif
-  led_t led_state = host_keyboard_led_state();
   render_mod_gui(modifiers & MOD_MASK_GUI);
   render_mod_alt(modifiers & MOD_MASK_ALT);
-  render_mod_shift(modifiers & MOD_MASK_SHIFT, led_state.caps_lock);
+  render_mod_shift(modifiers & MOD_MASK_SHIFT, host_keyboard_led_state().caps_lock);
   render_mod_ctrl(modifiers & MOD_MASK_CTRL);
 }
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (is_master) {
+  if (is_keyboard_left()) {
     return OLED_ROTATION_270;
   } else {
     return OLED_ROTATION_180;
@@ -141,11 +161,11 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 
 // OLED render main callback
 void oled_task_user(void) {
-  if (is_master) {
+  if (is_keyboard_left()) {
     render_qmk_logo();
     render_layer_state();
   } else {
     render_mod_status();
   }
 }
-#endif // OLED_DRIVE_ENABLE
+#endif // OLED_ENABLE

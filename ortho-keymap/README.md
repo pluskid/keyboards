@@ -19,7 +19,7 @@ firmware online, or if you need to do other modifications, you can also
 call run `qmk json2c` on the json files to generate C code that you can
 copy into your `keymap.c`.
 
-## Default layouts
+## Existing layouts
 
 * `planck-colemak-dhm.json`: default keymap with Colemak-dhm as the base layer.
   I used this layout in 2020.
@@ -28,3 +28,10 @@ copy into your `keymap.c`.
   for all the shifted symbols, I manually defined them to be using rshift. This
   avoid conflicting with using left-shift to switch Chinese/English state of my
   Chinese input software.
+* `corne-art.json`: layout for corne that support use with drawing tablet. It is
+  similar to `planck-qwer-rshift-symbol.json`, except when LOWER+RAISE+H is pressed,
+  it switch to a *half* mode (layer 5), where the left half has enough modifiers
+  for art use. Most of the buttons on the right still functions. However, the LOWER
+  and RAISE buttons will no longer work as usual, so you cannot type numbers
+  or symbols. To switch back to normal mode, press RAISE+H.
+
