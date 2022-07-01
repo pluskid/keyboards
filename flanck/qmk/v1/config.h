@@ -8,7 +8,6 @@
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    pluskid
 #define PRODUCT         flanck
-#define DESCRIPTION     4x12 fat-planck
 
 /* key matrix size */
 #define MATRIX_ROWS 4
